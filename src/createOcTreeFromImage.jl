@@ -1,5 +1,16 @@
 export createOcTreeFromImage
 
+"""
+function createOcTreeFromImage(A::Array{UInt8,3},tol)
+	
+	Input: 
+		A   - image with UInt8 entries for efficiency
+		tol - equal intensity color
+	
+	Output
+		S   - SparseArray
+"""
+
 function createOcTreeFromImage(A::Array{UInt8,3},tol);
 # S,A = createOcTreeFromImage(A,tol);
 # A - image
@@ -26,7 +37,7 @@ function createOcTreeFromImage(A::Array{UInt8,3},tol);
 		end
 	end
 
-	S = Mesh.sparse3(round(Int64,ii),round(Int64,jj),round(Int64,kk),round(Int64,bsz),[m1,m2,m3])
+	S = sparse3(round(Int64,ii),round(Int64,jj),round(Int64,kk),round(Int64,bsz),[m1,m2,m3])
 	bszmin = maxbsz
 	while true
 		println("max blksz = ",maximum(S.SV)," min blksz = ",minimum(nonzeros(S))," number of cells = ",nnz(S))
@@ -49,14 +60,14 @@ function refineOcTreeTol(S,A,tol,bszmin)
 	ii, jj, kk, bsz = find3(S)
 		
 	nz = length(ii)
-	ti = zeros(Uint,8*nz); tj = zeros(Uint,8*nz); 
-	tk = zeros(Uint,8*nz); tb = zeros(Uint,8*nz)
+	ti = zeros(Int,8*nz); tj = zeros(Int,8*nz); 
+	tk = zeros(Int,8*nz); tb = zeros(Int,8*nz)
 	ti[1:nz] = ii; tj[1:nz] = jj  
 	tk[1:nz] = kk; tb[1:nz] = bsz
 
 	cnt = nz+1
-	i1 = zero(Uint); j1 = zero(Uint); k1 = zero(Uint); 
-	i2 = zero(Uint); j2 = zero(Uint); k2 = zero(Uint)
+	i1 = zero(Int); j1 = zero(Int); k1 = zero(Int); 
+	i2 = zero(Int); j2 = zero(Int); k2 = zero(Int)
 	for m=1:nz
 		if bsz[m] <= bszmin
 			i1 = ti[m]; i2 = i1+tb[m]-1
@@ -119,7 +130,7 @@ function refineOcTreeTol(S,A,tol,bszmin)
 	tk  = tk[1:cnt-1]
 	tb  = tb[1:cnt-1]
 	
-	Sr = Mesh.sparse3(round(Int64,ti),round(Int64,tj),round(Int64,tk),round(Int64,tb),[m1,m2,m3])
+	Sr = sparse3(round(Int64,ti),round(Int64,tj),round(Int64,tk),round(Int64,tb),[m1,m2,m3])
 
 	ti,tj,tk,tb = find3(Sr)
 	
