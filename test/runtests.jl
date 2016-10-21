@@ -1,5 +1,9 @@
 using JOcTree
+using jInv.Mesh
+using jInv.Vis
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+println("=== testing JOcTree.jl ===")
+include("testPlotOcTree.jl")
+
+println("=== [JOcTree.jl] all tests passed ===")

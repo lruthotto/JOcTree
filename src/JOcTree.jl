@@ -72,7 +72,7 @@ include("getInterfaceWeights.jl")
 #include("getMassMatrixFEM.jl") 
 #include("getDiffMassMatrixFEM.jl")
 
-# include("plot.jl")
+include("plotGrid.jl")
 
 
 end
