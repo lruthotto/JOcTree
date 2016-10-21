@@ -52,6 +52,7 @@ include("uniteOcTrees.jl")
 include("createOcTreeFromBox.jl")
 include("getEdgeIntegralOfPolygonalChain.jl")
 include("createOcTreeFromImage.jl")
+include("createOcTreeFromSrcRec.jl")	
 include("initCoarseOcTree.jl")
 
 include("display.jl")
