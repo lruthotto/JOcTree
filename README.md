@@ -20,6 +20,6 @@ Pkg.test("jInv")
 
 Having [`jInv`](https://github.com/JuliaInv/jInv.jl) installed, type:
 ```
-Pkg.clone("https://github.com/JuliaInv/JOcTree.git","JOcTree")
+Pkg.clone("https://github.com/lruthotto/JOcTree.git","JOcTree")
 Pkg.test("JOcTree")
 ```
