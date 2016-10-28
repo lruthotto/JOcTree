@@ -12,6 +12,8 @@ type SparseArray3D
         sz::Vector{Int}    # size of fine mesh
 end
 
+Base.copy(S::SparseArray3D) = SparseArray3D(copy(S.SV),copy(S.sz))
+
 Base.size(S::SparseArray3D) = (S.sz[1], S.sz[2], S.sz[3])
 Base.size(S::SparseArray3D,dim::Int) = S.sz[dim]
 Base.find(S::SparseArray3D) = find(S.SV)
