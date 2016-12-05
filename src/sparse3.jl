@@ -19,8 +19,8 @@ Base.size(S::SparseArray3D,dim::Int) = S.sz[dim]
 Base.find(S::SparseArray3D) = find(S.SV)
 Base.ndims(S::SparseArray3D) = 3
 
-import jInv.Utils.clear
-clear(S::SparseArray3D) = sparse3(S.sz)
+import jInv.Utils.clear!
+clear!(S::SparseArray3D) = sparse3(S.sz)
 
 function sparse3(sz::Vector{Int})
         S = spzeros(Int,prod(sz),1)
