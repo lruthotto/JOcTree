@@ -1,7 +1,7 @@
 #module JOcTree
 
 
-export OcTreeMeshFV, getOcTreeMeshFV, getDomain
+export OcTreeMeshFV, getOcTreeMeshFV
 
 type OcTreeMeshFV <: OcTreeMesh
 	S::SparseArray3D    # i,j,k, bsz
@@ -14,8 +14,10 @@ type OcTreeMeshFV <: OcTreeMesh
 	Div::SparseMatrixCSC
 	Grad::SparseMatrixCSC
 	Curl::SparseMatrixCSC
-	Af::SparseMatrixCSC # FaceAverageMatrix
-	Ae::SparseMatrixCSC # EdgeMassMatrixAnisotropic
+	Pf::SparseMatrixCSC # FaceMassMatrixIntegrationMatrix
+	Pe::SparseMatrixCSC # EdgeMassMatrixIntegrationMatrix
+	Af::SparseMatrixCSC # Face to cell-centre matrix
+	Ae::SparseMatrixCSC # Edge to cell-centre matrix
 	V::SparseMatrixCSC # cell volume
 	L::SparseMatrixCSC # edge lengths
 	Ne::SparseMatrixCSC # Edge nullspace matrix
@@ -65,35 +67,25 @@ function getOcTreeMeshFV(S,h;x0=zeros(3))
 		return OcTreeMeshFV(S, h, x0,
                     		  S.sz,nc,nf,ne,
                     		  empt,empt,empt,       # no Div, Grad, Curl
-                    		  empt,empt,empt,empt,empt,empt,  # no Af,Ae,V,L,Ne,Qe
+                    		  empt,empt,empt,empt,empt,empt,empt,empt,  # no Pf,Pe,Af,Ae,V,L,Ne,Qe
                     		  empt,empt,empt,empt, #no Nn,Qn,Nf,Qf
    							  FX,FY,FZ, EX,EY,EZ,
    							  empt3,empt3,empt3,  # no NFX,NFY,NFZ
    							  empt3,empt3,empt3)  # no NEX,NEY,NEZ	
 end  # function getOcTreeMeshFV
 
-"""
-	function getDomain(Mesh)
-		
-	returns rectangular domain of Mesh
-"""
-function getDomain(M::OcTreeMesh)
-	
-	domain = zeros(6,1)
-	domain[1:2:end] = M.x0
-	domain[2:2:end] = M.x0 + M.n.*M.h
-	
-	return domain
-end
 
-import jInv.Utils.clear!
+
+import Base.clear!
 function clear!(M::OcTreeMeshFV)
 	M.S    = clear!(M.S)
 	M.Div  = clear!(M.Div )
 	M.Grad = clear!(M.Grad)
 	M.Curl = clear!(M.Curl)
-	M.Af   = clear!(M.Af  )
+	M.Pf   = clear!(M.Pf  )
+	M.Pe   = clear!(M.Pe  )
 	M.Ae   = clear!(M.Ae  )
+	M.Af   = clear!(M.Af  )
 	M.V    = clear!(M.V   )
 	M.L    = clear!(M.L   )
 	M.FX   = clear!(M.FX )

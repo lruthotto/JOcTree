@@ -8,8 +8,8 @@ import Base.setindex!
 import Base.ndims 
 
 type SparseArray3D
-        SV::SparseMatrixCSC{Int}
-        sz::Vector{Int}    # size of fine mesh
+        SV::SparseMatrixCSC{Int64}
+        sz::Vector{Int64}    # size of fine mesh
 end
 
 Base.copy(S::SparseArray3D) = SparseArray3D(copy(S.SV),copy(S.sz))

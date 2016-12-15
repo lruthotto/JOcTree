@@ -79,6 +79,7 @@ function clear!(M::OcTreeMeshFEM)
 	M.NEX  = clear!(M.NEX)
 	M.NEY  = clear!(M.NEY)
 	M.NEZ  = clear!(M.NEZ)	
+	M.NEZ  = clear!(M.NEZ)
 end  # function clear
 
 
