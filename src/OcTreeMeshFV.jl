@@ -1,7 +1,7 @@
 #module JOcTree
 
 
-export OcTreeMeshFV, getOcTreeMeshFV
+export OcTreeMeshFV, getOcTreeMeshFV, getDomain
 
 type OcTreeMeshFV <: OcTreeMesh
 	S::SparseArray3D    # i,j,k, bsz
@@ -74,6 +74,19 @@ function getOcTreeMeshFV(S,h;x0=zeros(3))
    							  empt3,empt3,empt3)  # no NEX,NEY,NEZ	
 end  # function getOcTreeMeshFV
 
+"""
+	function getDomain(Mesh)
+		
+	returns rectangular domain of Mesh
+"""
+function getDomain(M::OcTreeMesh)
+	
+	domain = zeros(6,1)
+	domain[1:2:end] = M.x0
+	domain[2:2:end] = M.x0 + M.n.*M.h
+	
+	return domain
+end
 
 
 import Base.clear!
